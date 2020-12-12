@@ -49,7 +49,7 @@ public class Sketch {
    * @param file
    *          Any file inside the sketch directory.
    */
-  Sketch(File file) throws IOException {
+  public Sketch(File file) throws IOException {
     folder = file.getParentFile();
     files = listSketchFiles(true);
   }
@@ -363,10 +363,10 @@ public class Sketch {
       // Copy the data files into the new folder
       FileUtils.copy(getDataFolder(), newDataFolder);
     }
-    
+
     // Change folder to the new folder
     folder = newFolder;
-    
+
   }
 
   /**

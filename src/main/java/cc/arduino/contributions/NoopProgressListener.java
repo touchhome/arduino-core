@@ -34,8 +34,7 @@ import cc.arduino.utils.Progress;
 public class NoopProgressListener implements ProgressListener {
 
   @Override
-  public boolean onProgress(Progress progress) {
-    return true;
+  public void onProgress(Progress progress) {
   }
 
 }

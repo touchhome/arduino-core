@@ -36,7 +36,7 @@ public class ConsoleProgressListener implements ProgressListener {
   private double lastProgress = 0.0;
 
   @Override
-  public boolean onProgress(Progress progress) {
+  public void onProgress(Progress progress) {
     // Reduce verbosity when running in console
     String s = progress.getStatus().replaceAll("[0-9]", "");
     double p = progress.getProgress();
@@ -45,8 +45,6 @@ public class ConsoleProgressListener implements ProgressListener {
       System.out.println(progress.getStatus());
       lastProgress = p;
     }
-    boolean changed = !lastStatus.equals(s);
     lastStatus = s;
-    return changed;
   }
 }

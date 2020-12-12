@@ -33,6 +33,6 @@ import cc.arduino.utils.Progress;
 
 public interface ProgressListener {
 
-  boolean onProgress(Progress progress);
+  void onProgress(Progress progress);
 
 }
