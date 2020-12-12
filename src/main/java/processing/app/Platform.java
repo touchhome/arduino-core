@@ -52,7 +52,9 @@ import static processing.app.I18n.tr;
  * know if name is proper Java package syntax.)
  */
 public class Platform {
+  private static boolean libraryLoaded;
   // DO NOT USE log4j here otherwise the root path of the logs will no be initialize correctly
+
   /**
    * Set the default L & F. While I enjoy the bounty of the sixteen possible
    * exception types that this UIManager method might throw, I feel that in
@@ -140,20 +142,22 @@ public class Platform {
     }
   }
 
-  static {
-    loadLib(new File(BaseNoGui.getContentFile("lib"), System.mapLibraryName("listSerialsj")));
+  public Platform() {
+    tryLoadLibrary();
   }
 
-  private static void loadLib(File lib) {
-    try {
-      System.load(lib.getAbsolutePath());
-    } catch (UnsatisfiedLinkError e) {
-      e.printStackTrace();
-      System.out.println(e.getMessage());
-      System.out.println("Cannot load native library " + lib.getAbsolutePath());
-      System.out.println("The program has terminated!");
-      System.exit(1);
+  public static boolean tryLoadLibrary() {
+    if (!libraryLoaded) {
+      try {
+        File lib = new File(BaseNoGui.getContentFile("lib"), System.mapLibraryName("listSerialsj"));
+        if (lib.exists()) {
+          System.load(lib.getAbsolutePath());
+          libraryLoaded = true;
+        }
+      } catch (UnsatisfiedLinkError ex) {
+      }
     }
+    return libraryLoaded;
   }
 
   private native String resolveDeviceAttachedToNative(String serial);
@@ -240,7 +244,7 @@ public class Platform {
   }
 
 
-  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .  
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
 
   protected void showLauncherWarning() {
